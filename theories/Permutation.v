@@ -5,7 +5,7 @@ Open Scope nominal_scope.
 (* Permutation is just a list of pair of names. *)
 Notation Perm := (list Swap).
 
-Definition perm_swap (p: Perm): Name → Name := 
+Definition perm_swap (p: Perm): Name → Name :=
   λ a, foldl (λ x y, swap y x) a p.
 
 (* Properties *)
@@ -24,7 +24,7 @@ Lemma perm_swap_right_rev (p : Perm) a: perm_swap p (perm_swap (reverse p) a) = 
 Proof with auto.
   assert (HH: ∀ {A} (x: A) y, x :: y = [x] ++ y)... induction p.
   - simpl...
-  - rewrite HH, reverse_app, reverse_singleton, <- perm_swap_app, <-app_assoc, 
+  - rewrite HH, reverse_app, reverse_singleton, <- perm_swap_app, <-app_assoc,
       3?perm_swap_app; simpl; rewrite swap_involutive...
 Qed.
 
@@ -41,7 +41,7 @@ Lemma perm_swap_neq p: ∀ a b, a ≠ b → perm_swap p a ≠ perm_swap p b.
 Proof. induction p as [|[] ? IHp]; [| intros; simpl; apply IHp,swap_neq]; auto. Qed.
 
 (* Permutation domain *)
-Fixpoint perm_dom (p: Perm): NameSet :=  
+Fixpoint perm_dom (p: Perm): NameSet :=
   match p with
   | [] => ∅
   | (a,b) :: p' => {[a; b]} ∪ perm_dom p'
@@ -100,13 +100,13 @@ Open Scope nominal_scope.
 Lemma perm_expand (a b c: Name):
   c ≠ a -> c ≠ b -> ⟨a,c⟩ ≡@{Perm} ⟨a,b⟩ + ⟨b,c⟩ + ⟨a,b⟩.
 Proof.
-  intros; unfold equiv, perm_equiv, perm_swap; intros; simpl; 
+  intros; unfold equiv, perm_equiv, perm_swap; intros; simpl;
     repeat case_decide; subst; congruence.
 Qed.
 
 Lemma swap_perm a b: ⟨a,b⟩ ≡@{Perm} ⟨b,a⟩.
-Proof. 
-  unfold equiv, perm_equiv, perm_swap; intros; simpl; 
+Proof.
+  unfold equiv, perm_equiv, perm_swap; intros; simpl;
     repeat case_decide; subst; auto.
 Qed.
 
@@ -125,11 +125,11 @@ Proof.
   destruct (decide (a = x)), (decide (b = x)); subst; rewrite 2!perm_swap_app.
   - rewrite 2!perm_equiv_neutral; auto.
   - rewrite 2!perm_swap_left; auto.
-  - rewrite 2!perm_swap_right; auto. 
+  - rewrite 2!perm_swap_right; auto.
   - rewrite 2!perm_swap_neither; try apply perm_swap_neq; intuition.
 Qed.
 
-Lemma perm_notin_dom_comm a b p: 
+Lemma perm_notin_dom_comm a b p:
   a ∉ perm_dom p → b ∉ perm_dom p → ⟨a,b⟩ + p ≡@{Perm} p + ⟨a,b⟩.
 Proof.
   intros; rewrite perm_comm_distr; unfold equiv, perm_equiv; intros x;
@@ -137,7 +137,7 @@ Proof.
 Qed.
 
 Lemma perm_dom_inv p a: a ∉ perm_dom p → a ∉ perm_dom (-p).
-Proof. 
+Proof.
   induction p as [| p p' IHp]; intros H.
   - simpl in *; auto.
   - assert (HH: ∀ A (x: A) y, x :: y = [x] ++ y). { intros; simpl; auto. }

@@ -5,13 +5,13 @@ From Nominal Require Import Name Nominal Fresh.
 #[export] Instance nat_support: Support nat := fun n => ∅.
 
 #[export] Instance nat_perm: PermT nat.
-Proof. 
+Proof.
     split; unfold equiv,nat_equiv,action,nat_action in *; repeat intro; auto.
     - typeclasses eauto.
 Qed.
 
 #[export] Instance nat_nominal: Nominal nat.
-Proof. 
+Proof.
     split; intros.
     - apply nat_perm.
     - reflexivity.

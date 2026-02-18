@@ -1,6 +1,6 @@
 From Nominal Require Export Name.
 
-Definition Swap: Type := (Name * Name).
+Definition Swap : Type := (Name * Name).
 
 Definition swap '(a,b): Name → Name :=
   λ c, if decide (a = c) then b else if decide (b = c) then a else c.
@@ -20,7 +20,7 @@ Section SwapProperties.
   Proof. intros; simpl; repeat case_decide; congruence. Qed.
 
   Lemma swap_neither2: swap (a, b) c = c → (a ≠ c ∧ b ≠ c) ∨ (a = c ∧ b = c).
-  Proof. 
+  Proof.
     intros; simpl in *; try repeat case_decide; subst;
         [right | congruence | left]; auto.
   Qed.
@@ -34,4 +34,3 @@ Section SwapProperties.
   Lemma swap_involutive p: swap p (swap p a) = a.
   Proof. destruct p; simpl; repeat case_decide; congruence. Qed.
 End SwapProperties.
-
